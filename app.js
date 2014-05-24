@@ -6,13 +6,16 @@
 var express = require('express'),
     app = express(),
     port = 3000,
+    routes = require('./app/routes'),
     passport = require('passport'),
     TwitterStrategy = require('passport-twitter').Strategy,
     CONSUMERKEY = "N69Y30HwVPXYk2TdgXtMQVs5C",
     CONSUMERSECRET = "7L47WHvdLv0BKQQGRUaeNkP14mHlCQtJkWHhmWFfHwjs6jb5BY",
     twitterCallbackURL = "http://localhost:3000/auth/twitter/callback",
     mongoose = require('mongoose'),
-    database = 'publicReg';
+    database = 'DataFrom',
+    users = require('./controllers/users'),
+    models = require('./app/models');
 /*
  * Use Handlebars for templating
  */
@@ -85,24 +88,11 @@ passport.use(new TwitterStrategy({
     callbackURL: twitterCallbackURL
   },
   function(token, tokenSecret, profile, done) {
-    process.nextTick(function () {
-    // TODO - not sure if needs to live within tick but anyway need to run a FindOrCreate function with returned profile
-      console.log(profile);
-    });
+    users.findOrCreate(profile.id, done);
   }
 ));
 
-/*
- * Routes
- */
-// Index Page
-app.get('/', function(request, response, next) {
-    response.render('index');
-});
-
-// Login
-app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }));
+routes.initialize(app, passport);
 
 /*
  * Start it up

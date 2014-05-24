@@ -3,9 +3,10 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId;
 
 var UserSchema = new Schema({
-    name: { type: String }
+    name: { type: String },
+    twitter_id: { type: Number}
 });
 
 module.exports = {
-    User: mongoose.model('User', UserSchema , "users")
+    User: mongoose.model('User', UserSchema , "Users")
 };
