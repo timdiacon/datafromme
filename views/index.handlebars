@@ -1,3 +1,12 @@
 <div class="container">
-    but when it does. it will be amazing
+	{{#if user}}
+	You've signed in! You need some content...
+	{{else}}
+		<div class="jumbotron">
+		  <h1>This is amazing!</h1>
+		  <p>OK, so it's not that amazing right now but it will be.</p>
+		  <p>We believe some wacky shit about data and we want you to get involved. It's going to be amazing to sign in with Twitter and let's get started.</p>
+		  <p><a href="auth/twitter" class="btn btn-primary btn-lg" role="button">Sign in with Twitter</a></p>
+		</div>
+	{{/if}}
 </div>

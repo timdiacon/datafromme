@@ -529,3 +529,15 @@ input[type=password]:focus {
 /**
  * SECTION TITLE
 */
+/* line 27, sass/screen.scss */
+.navbar-nav .btn {
+  margin-top: 8px;
+}
+/* line 30, sass/screen.scss */
+.navbar-nav .profile-image {
+  width: 40px;
+  height: 40px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}

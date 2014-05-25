@@ -11,6 +11,7 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(assets) styles/screen.css -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="styles/screen.css">
         <!-- endbuild -->
     </head>
@@ -18,19 +19,13 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-        <header>
-            <a href="/">Home</a>
-            <a href="profile">Profile</a>
-        </header>
+        {{> primaryNav}}
 
         {{{ body }}}
 
-        <footer>
-            <a href="/auth/twitter">Sign in with Twitter</a>
-        </footer>
-
         <!-- build:js(assets) scripts/scripts.js -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <!-- endbuild -->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.

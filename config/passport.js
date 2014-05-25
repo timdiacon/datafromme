@@ -38,7 +38,8 @@ module.exports = function(passport) {
 	 	// User.findOne won't fire until we have all our data back from Twitter
         process.nextTick(function() {
             User.findOne({'twitter.id': profile.id }, function(err, user) {
-    
+
+                // TODO display error message if error occured
                 // if there is an error, stop everything and return that
                 // ie an error connecting to the database
                 if (err)
@@ -56,6 +57,7 @@ module.exports = function(passport) {
                     newUser.twitter.token = token;
                     newUser.twitter.username = profile.username;
                     newUser.twitter.displayName = profile.displayName;
+                    newUser.twitter.profileImageUrl = profile._json.profile_image_url;
     
                     // save our user into the database
                     newUser.save(function(err) {
