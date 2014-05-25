@@ -6,16 +6,14 @@
 var express = require('express'),
     app = express(),
     port = 3000,
-    routes = require('./app/routes'),
-    passport = require('passport'),
-    TwitterStrategy = require('passport-twitter').Strategy,
-    CONSUMERKEY = "N69Y30HwVPXYk2TdgXtMQVs5C",
-    CONSUMERSECRET = "7L47WHvdLv0BKQQGRUaeNkP14mHlCQtJkWHhmWFfHwjs6jb5BY",
-    twitterCallbackURL = "http://localhost:3000/auth/twitter/callback",
     mongoose = require('mongoose'),
-    database = 'DataFrom',
-    users = require('./controllers/users'),
-    models = require('./app/models');
+    passport = require('passport'),
+    flash    = require('connect-flash'),
+    cookieParser = require('cookie-parser'),
+    session      = require('express-session'),
+
+    routes = require('./app/routes'),
+    configDB = require('./config/database.js');
 /*
  * Use Handlebars for templating
  */
@@ -61,36 +59,20 @@ if (process.env.NODE_ENV === 'production') {
 app.set('view engine', 'handlebars');
 
 //connect to the db server:
-mongoose.connect('mongodb://localhost/' + database);
+mongoose.connect(configDB.url);
 mongoose.connection.on('open', function() {
     console.log("Connected to Mongoose...");
 });
 
-// cookies and sessions for user tracking
-app.use(express.cookieParser());
-app.use(express.session({secret: '1234567890QWERTY'}));
+// pass passport for configuration
+require('./config/passport')(passport);
 
-/* Passport for user login */
-// TEMP
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-//
+app.use(cookieParser());
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new TwitterStrategy({
-    consumerKey: CONSUMERKEY,
-    consumerSecret: CONSUMERSECRET,
-    callbackURL: twitterCallbackURL
-  },
-  function(token, tokenSecret, profile, done) {
-    users.findOrCreate(profile.id, done);
-  }
-));
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 
 routes.initialize(app, passport);
 
