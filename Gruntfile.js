@@ -249,11 +249,22 @@ module.exports = function (grunt) {
                 'htmlmin'
             ]
         },
+
+        // Shell
+        shell: {
+            mongo: {
+                command: 'mongod',
+                options: {
+                    async: true
+                }
+            }
+        }
     });
 
     // Register Tasks
     // Workon
     grunt.registerTask('workon', 'Start working on this project.', [
+        'shell',
         'jshint',
         'sass:dev',
         'express:dev',

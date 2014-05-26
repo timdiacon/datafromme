@@ -4,7 +4,12 @@
   "private": true,
   "dependencies": {
     "express": "~3.4.0",
-    "express3-handlebars": "0.4.x"
+    "express3-handlebars": "0.4.x",
+    "passport": "~0.2.0",
+    "passport-twitter": "~1.0.2",
+    "mongoose": "~3.8.11",
+    "connect-flash": "~0.1.1",
+    "express-session": "~1.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -26,7 +31,8 @@
     "grunt-svgmin": "~0.2.0",
     "grunt-concurrent": "~0.3.0",
     "load-grunt-tasks": "~0.1.0",
-    "time-grunt": "~0.1.1"
+    "time-grunt": "~0.1.1",
+    "grunt-shell-spawn": "~0.3.0"
   },
   "engines": {
     "node": ">=0.8.0",
