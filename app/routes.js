@@ -1,3 +1,5 @@
+var biometric = require('./controllers/biometric');
+
 module.exports.initialize = function(app, passport) {
 	
 	app.get('/', function(req, res, next) {
@@ -15,11 +17,16 @@ module.exports.initialize = function(app, passport) {
 	// Login
 	app.get('/auth/twitter', passport.authenticate('twitter'));
 	app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/profile', failureRedirect: '/' }));
+	
 	// Logout
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
 	});
+
+	// API
+	app.get('/api/biometrics', biometric.index);
+
 };
 
 // route middleware to make sure a user is logged in

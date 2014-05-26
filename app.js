@@ -3,20 +3,19 @@
 /*
  * Express Dependencies
  */
-var express = require('express'),
-    app = express(),
-    port = 3000,
-    mongoose = require('mongoose'),
-    passport = require('passport'),
-    flash    = require('connect-flash'),
-    cookieParser = require('cookie-parser'),
-    session      = require('express-session'),
+var express = require('express');
+var app = express();
+var port = 3000;
 
-    routes = require('./app/routes'),
-    configDB = require('./config/database.js');
-/*
- * Use Handlebars for templating
- */
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash = require('connect-flash');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+
+var routes = require('./app/routes');
+var configDB = require('./config/database.js');
+
 var exphbs = require('express3-handlebars');
 var hbs;
 
@@ -72,7 +71,6 @@ app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secre
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
-
 
 routes.initialize(app, passport);
 
