@@ -13,7 +13,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 var routes = require('./app/routes');
-var configDB = require('./config/database.js');
+var configVars = require('./config/config.js');
 
 var exphbs = require('express3-handlebars');
 var hbs;
@@ -55,7 +55,7 @@ if (process.env.NODE_ENV === 'staging') {
     // Locate the assets
     app.use(express.static(__dirname + '/assets'));
 
-    databaseUrl = configDB.url;
+    databaseUrl = configVars.database.url;
 }
 
 // Set Handlebars
