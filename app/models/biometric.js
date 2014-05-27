@@ -6,6 +6,8 @@ var biometricSchema = mongoose.Schema({
 
 	user: String, // storing ref to user here as other way around could inflate user document to 16mb with huge volumes of data
 	date: Date,
+
+	// optional
 	weight: Number
 
 });
