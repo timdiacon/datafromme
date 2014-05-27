@@ -17,6 +17,7 @@ var configDB = require('./config/database.js');
 
 var exphbs = require('express3-handlebars');
 var hbs;
+var databaseUrl;
 
 // For gzip compression
 app.use(express.compress());
@@ -38,6 +39,8 @@ if (process.env.NODE_ENV === 'production') {
     // Locate the assets
     app.use(express.static(__dirname + '/dist/assets'));
 
+    databaseUrl = process.env.DATABASE;
+
 } else {
     app.engine('handlebars', exphbs({
         // Default Layout and locate layouts and partials
@@ -51,18 +54,19 @@ if (process.env.NODE_ENV === 'production') {
     
     // Locate the assets
     app.use(express.static(__dirname + '/assets'));
+
+    databaseUrl = configDB.url;
 }
 
 // Set Handlebars
 app.set('view engine', 'handlebars');
 
 //connect to the db server:
-/*
-mongoose.connect(configDB.url);
+
+mongoose.connect(databaseUrl);
 mongoose.connection.on('open', function() {
     console.log("Connected to Mongoose...");
 });
-*/
 
 // pass passport for configuration
 require('./config/passport')(passport);
