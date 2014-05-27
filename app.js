@@ -19,6 +19,17 @@ var exphbs = require('express3-handlebars');
 var hbs;
 var databaseUrl;
 
+/*
+// Authentication module.
+var auth = require('http-auth');
+var basic = auth.basic({
+    realm: "Top Secret",
+    file: __dirname + "/htpasswd"
+});
+
+app.use(auth.connect(basic));
+*/
+
 // For gzip compression
 app.use(express.compress());
 

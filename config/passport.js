@@ -7,7 +7,6 @@ var User = require('../app/models/user');
 // load the auth variables
 if(process.env.NODE_ENV == undefined){
     var configVars = require('./config');
-    console.log(configVars);
 }
 
 module.exports = function(passport) {

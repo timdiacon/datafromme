@@ -3,15 +3,11 @@ var biometric = require('./controllers/biometric');
 module.exports.initialize = function(app, passport) {
 	
 	app.get('/', function(req, res, next) {
-	    res.render('index', {
-	    	user: req.user
-	    });
+	    res.render('index', { user: req.user });
 	});
 
 	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile', {
-			user : req.user // get the user out of session and pass to template
-		});
+		res.render('profile', { user : req.user });
 	});
 
 	// Login
