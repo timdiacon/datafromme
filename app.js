@@ -5,7 +5,6 @@
  */
 var express = require('express');
 var app = express();
-var port = 3000;
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -77,5 +76,7 @@ routes.initialize(app, passport);
 /*
  * Start it up
  */
-app.listen(process.env.PORT || port);
-console.log('Express started on port ' + port);
+var port = Number(process.env.PORT || 5000);
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});

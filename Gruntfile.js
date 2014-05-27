@@ -251,20 +251,20 @@ module.exports = function (grunt) {
         },
 
         // Shell
-        shell: {
-            mongo: {
-                command: 'mongod',
-                options: {
-                    async: true
-                }
-            }
-        }
+        // shell: {
+        //     mongo: {
+        //         command: 'mongod',
+        //         options: {
+        //             async: true
+        //         }
+        //     }
+        // }
     });
 
     // Register Tasks
     // Workon
     grunt.registerTask('workon', 'Start working on this project.', [
-        'shell',
+        //'shell',
         'jshint',
         'sass:dev',
         'express:dev',
