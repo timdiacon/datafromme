@@ -25,7 +25,7 @@ app.use(express.compress());
 /*
  * Config for Production and Development
  */
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'staging') {
     // Set the default layout and locate layouts and partials
     app.engine('handlebars', exphbs({
         defaultLayout: 'main',
