@@ -12,7 +12,7 @@ module.exports.initialize = function(app, passport) {
 
 	// Login
 	app.get('/auth/twitter', passport.authenticate('twitter'));
-	app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/profile', failureRedirect: '/' }));
+	app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/' }));
 	
 	// Logout
 	app.get('/logout', function(req, res) {
@@ -22,6 +22,7 @@ module.exports.initialize = function(app, passport) {
 
 	// API
 	app.get('/api/biometrics', biometric.index);
+	app.post('/api/biometrics', biometric.add);
 
 };
 

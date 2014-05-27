@@ -33,6 +33,9 @@ app.use(auth.connect(basic));
 // For gzip compression
 app.use(express.compress());
 
+// parse form data
+app.use(express.bodyParser());
+
 /*
  * Config for Production and Development
  */

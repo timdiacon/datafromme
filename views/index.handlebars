@@ -1,6 +1,12 @@
 <div class="container">
 	{{#if user}}
-	You've signed in! You need some content...
+	<form action="/api/biometrics" method="post">
+		<div class="form-group">
+			<label for="exampleInputEmail1">How much do you weigh today?</label>
+			<input class="form-control" name="weight" placeholder="Your weight">
+		</div>
+		<button type="submit" class="btn btn-success">Submit</button>
+	</form>
 	{{else}}
 		<div class="jumbotron">
 		  <h1>This is amazing!</h1>
