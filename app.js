@@ -57,10 +57,12 @@ if (process.env.NODE_ENV === 'production') {
 app.set('view engine', 'handlebars');
 
 //connect to the db server:
+/*
 mongoose.connect(configDB.url);
 mongoose.connection.on('open', function() {
     console.log("Connected to Mongoose...");
 });
+*/
 
 // pass passport for configuration
 require('./config/passport')(passport);
