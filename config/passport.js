@@ -2,7 +2,7 @@
 var TwitterStrategy  = require('passport-twitter').Strategy;
 
 // load up the user model
-var User = require('../app/models/user');
+var User = require('../app/models/User');
 
 // load the auth variables
 if(process.env.NODE_ENV == undefined){

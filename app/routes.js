@@ -1,4 +1,5 @@
-var biometric = require('./controllers/biometric');
+var biometric = require('./controllers/biometricController');
+var transation = require('./controllers/transactionController');
 
 module.exports.initialize = function(app, passport) {
 	

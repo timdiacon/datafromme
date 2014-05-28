@@ -1,4 +1,4 @@
-var Biometric = require('../models/biometric');
+var Biometric = require('../models/Biometric');
 
 module.exports = {
     index: function(req, res) {
