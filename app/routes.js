@@ -25,6 +25,8 @@ module.exports.initialize = function(app, passport) {
 	app.get('/api/biometrics', biometric.index);
 	app.post('/api/biometrics', biometric.add);
 
+	app.post('/api/transaction', transation.add);
+
 };
 
 // route middleware to make sure a user is logged in

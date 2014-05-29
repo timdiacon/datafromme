@@ -1,4 +1,5 @@
 var Transaction = require('../models/Transaction');
+var fs = require('fs');
 
 module.exports = {
     index: function(req, res) {
@@ -10,13 +11,8 @@ module.exports = {
     },
 
     add: function(req, res) {
-        var o = new Transaction(req.body);
-        o.user = req.user._id;
-
-        o.save(function(err, doc) {
-            if (err)
-                res.json({});
-            res.json(doc);
+        fs.readFile(req.files.statement.path, function (err, data) {
+            console.log("DATA:" + data);
         });
-    },
+    }
 };
