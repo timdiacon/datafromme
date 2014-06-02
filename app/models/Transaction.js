@@ -6,9 +6,9 @@ var transactionSchema = mongoose.Schema({
 
 	user: String, // storing ref to user here as other way around could inflate user document to 16mb with huge volumes of data
 	date: Date,
-	transactionType: String,
+	type: String,
 	description: String,
-	amount: Number,
+	value: Number,
 	balance: Number,
 
 });

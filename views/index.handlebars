@@ -8,13 +8,17 @@
 		<button type="submit" class="btn btn-success">Submit</button>
 	</form>
 	<h2>Bank Stuff!</h2>
-	<form id="transaction-form" action="/api/transaction" method="post" enctype="multipart/form-data">
-		<div class="form-group">
-			<label>Upload some money!</label>
-			<input class="form-control" type="file" name="statement">
-		</div>
-		<button type="submit" class="btn btn-success">Submit</button>
-	</form>
+	<div class="form-group">
+		<label for="statement">Upload a statement &nbsp;</label>	
+		<span class="btn btn-success fileinput-button">
+	        <i class="glyphicon glyphicon-plus"></i>
+	        <span>Select file</span>
+	        <!-- The file input field used as target for the file upload widget -->
+	        <input id="statement-upload" type="file" name="statement">
+	    </span>
+	</div>
+	<div id="statement-save" class="btn btn-success">Do It... Do It NOW</div>
+
 	{{else}}
 		<div class="jumbotron">
 		  <h1>This is amazing!</h1>
