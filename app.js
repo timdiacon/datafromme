@@ -74,7 +74,7 @@ if (process.env.NODE_ENV === 'staging') {
 app.set('view engine', 'handlebars');
 
 //connect to the db server:
-
+console.log("TESTING:" + configVars.database.url);
 mongoose.connect(configVars.database.url);
 mongoose.connection.on('open', function() {
     console.log("Connected to Mongoose...");
