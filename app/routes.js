@@ -1,4 +1,4 @@
-var biometric = require('./controllers/biometricController');
+//var biometric = require('./controllers/biometricController');
 var transation = require('./controllers/transactionController');
 
 module.exports.initialize = function(app, passport) {
@@ -26,8 +26,8 @@ module.exports.initialize = function(app, passport) {
 	});
 
 	// API
-	app.get('/api/biometrics', biometric.index);
-	app.post('/api/biometrics', biometric.add);
+	//app.get('/api/biometrics', biometric.index);
+	//app.post('/api/biometrics', biometric.add);
 
 	app.post('/api/transaction', transation.initialParse);
 	app.post('/api/transaction/complete', transation.completeParse);
