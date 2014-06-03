@@ -4,7 +4,11 @@ var transation = require('./controllers/transactionController');
 module.exports.initialize = function(app, passport) {
 	
 	app.get('/', function(req, res, next) {
-	    res.render('index', { user: req.user });
+		if(req.isAuthenticated()){
+			res.render('dashboard', {user:req.user});
+		} else {
+	    	res.render('index');
+		}
 	});
 
 	app.get('/profile', isLoggedIn, function(req, res) {

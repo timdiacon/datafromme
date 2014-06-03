@@ -1,8 +1,11 @@
-$(document).ready(init());
+/*global FastClick */
 
-function init(){
+function init() {
+	FastClick.attach(document.body);
 	addListeners();
 }
+
+$(document).ready(init());
 
 function addListeners(){
 
@@ -10,7 +13,7 @@ function addListeners(){
 		e.preventDefault();
 
 		$.ajax({
-			type: "POST",
+			type: 'POST',
 			url: '/api/biometrics',
 			data: $(this).serialize(), // serializes the form's elements.
 			success: function(data){
@@ -31,13 +34,13 @@ function addListeners(){
         	// create and insert data sample as table
         	var headerHtml = '';
         	var bodyHtml = '';
-        	console.log(data.result.columns)
+        	console.log(data.result.columns);
         	$(data.result.columns).each(function(key, val){
         		if(val != null){
         			headerHtml += '<th>'+ val +'</th>';
-        			bodyHtml += '<th>'+ data.result.sample[val] +'</th>'
+        			bodyHtml += '<th>'+ data.result.sample[val] +'</th>';
         		}
-        	})
+        	});
         	var html = '<table class="table"><thead><tr>'+ headerHtml +'</tr></thead><tbody><tr>'+bodyHtml+'</tr></tbody></table>';
         	$('#transaction-form').append(html);
 
@@ -46,7 +49,7 @@ function addListeners(){
         	$('#transaction-form').append('<div id="statement-save" class="btn btn-success">Do it!</div>');
 		    $('#statement-save').click(function(){
 		    	$.ajax({
-					type: "POST",
+					type: 'POST',
 					url: '/api/transaction/complete',
 					success: function(data){
 						$('#page-body').prepend('<div class="alert alert-success">All done!</div>');

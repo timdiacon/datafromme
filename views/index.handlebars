@@ -1,31 +1,6 @@
-<div id="page-body" class="container">
-	{{#if user}}
-	<form id="biometric-weight-form" action="/api/biometrics" method="post">
-		<div class="form-group">
-			<label for="exampleInputEmail1">How much do you weigh today?</label>
-			<input class="form-control" name="weight" placeholder="Your weight">
-		</div>
-		<button type="submit" class="btn btn-success">Submit</button>
-	</form>
-	<div id="transaction-form">
-		<h2>Bank Stuff!</h2>
-		<div id="statement-form" class="form-group">
-			<label for="statement">Upload a statement &nbsp;</label>	
-			<span class="btn btn-success fileinput-button">
-		        <i class="glyphicon glyphicon-plus"></i>
-		        <span>Select file</span>
-		        <!-- The file input field used as target for the file upload widget -->
-		        <input id="statement-upload" type="file" name="statement">
-		    </span>
-		</div>
-	</div>
-
-	{{else}}
-		<div class="jumbotron">
-		  <h1>This is amazing!</h1>
-		  <p>OK, so it's not that amazing right now but it will be.</p>
-		  <p>We believe some wacky shit about data and we want you to get involved. It's going to be amazing to sign in with Twitter and let's get started.</p>
-		  <p><a href="auth/twitter" class="btn btn-primary btn-lg" role="button">Sign in with Twitter</a></p>
-		</div>
-	{{/if}}
+<div class="jumbotron">
+	<h1>This is amazing!</h1>
+	<p>OK, so it's not that amazing right now but it will be.</p>
+	<p>We believe some wacky shit about data and we want you to get involved. It's going to be amazing to sign in with Twitter and let's get started.</p>
+	<p><a href="auth/twitter" class="btn btn-primary btn-lg" role="button">Sign in with Twitter</a></p>
 </div>

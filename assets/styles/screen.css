@@ -541,3 +541,8 @@ input[type=password]:focus {
   -moz-border-radius: 50%;
   border-radius: 50%;
 }
+
+/* line 39, sass/screen.scss */
+.nav-tabs {
+  margin-bottom: 15px !important;
+}
