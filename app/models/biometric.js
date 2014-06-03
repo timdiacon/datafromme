@@ -1,4 +1,4 @@
-// app/models/biometric.js
+// app/models/Biometric.js
 
 var mongoose = require('mongoose');
 
