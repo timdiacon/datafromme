@@ -18,33 +18,27 @@ module.exports = {
             // convert csv into array and setup column config
             dataArray = CSVToArray(data);
             colConfig = getColConfig(dataArray[0]);            
-            // var t = new Transaction();
+            var t = new Transaction();
             
-            // // convert first item
-            // var row = dataArray[1];
-            // for(var c=0; c<row.length; c++){
-            //     if(colConfig[c] != null){
-            //         t[colConfig[c]] = row[c];
-            //     }
-            // }
-            var sample = [];
+            // create a sample object...
             var row = dataArray[1];
             for(var c=0; c<row.length; c++){
                 if(colConfig[c] != null){
-                    sample.push(row[c]);
+                    t[colConfig[c]] = row[c];
                 }
             }
+
             // send some useful things back to the user...
             res.send({
                 columns:colConfig,
                 rowCount:dataArray.length,
-                sample:sample
+                sample:t
             })
         });
     },
 
     completeParse: function(req, res){
-        console.log(dataArray);
+        // dataArray is held in memory - convert it into objects...
         res.json({
             it:"worked"
         });

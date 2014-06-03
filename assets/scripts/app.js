@@ -26,41 +26,47 @@ function addListeners(){
     $('#statement-upload').fileupload({
         url: 'api/transaction',
         dataType: 'json',
-        // TODO Done not firing?
+
         done: function (e, data) {
-        	var html = '<table class="table"><thead><tr>';
+        	// create and insert data sample as table
+        	var headerHtml = '';
+        	var bodyHtml = '';
+        	console.log(data.result.columns)
         	$(data.result.columns).each(function(key, val){
         		if(val != null){
-        			html += '<th>'+ val +'</th>'
+        			headerHtml += '<th>'+ val +'</th>';
+        			bodyHtml += '<th>'+ data.result.sample[val] +'</th>'
         		}
         	})
-        	html += '</tr></thead><tbody><tr>';
-        	$(data.result.sample).each(function(key, val){
-        		if(val != null){
-        			html += '<th>'+ val +'</th>'
-        		}
-        	})
-        	html += '</tr></tbody></table>';
-        	console.log(data.result)
-        	$('#page-body').append(html);
+        	var html = '<table class="table"><thead><tr>'+ headerHtml +'</tr></thead><tbody><tr>'+bodyHtml+'</tr></tbody></table>';
+        	$('#transaction-form').append(html);
+
+        	// now add the GO GO GO button
+        	$('#transaction-form').append('This is the first record of '+data.result.rowCount+'. If it looks OK then lets do the lot');
+        	$('#transaction-form').append('<div id="statement-save" class="btn btn-success">Do it!</div>');
+		    $('#statement-save').click(function(){
+		    	$.ajax({
+					type: "POST",
+					url: '/api/transaction/complete',
+					success: function(data){
+						$('#page-body').prepend('<div class="alert alert-success">All done!</div>');
+						$('#transaction-form').remove();
+					},
+					error: function(err){
+						$('#page-body').prepend('<div class="alert alert-error">Err, something went wrong: '+ err +'</div>');
+					}
+				});
+		    });
         },
+
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            console.log(progress);
+            
+            if(progress == 100){
+            	$('#statement-form').remove();
+            }
         }
     });
 
-    $('#statement-save').click(function(){
-    	$.ajax({
-			type: "POST",
-			url: '/api/transaction/complete',
-			success: function(data){
-				$('#page-body').prepend('<div class="alert alert-success">Looks like it worked</div>');
-			},
-			error: function(err){
-				$('#page-body').prepend('<div class="alert alert-error">Err, something went wrong: '+ err +'</div>');
-			}
-		});
-    });
 
 }
