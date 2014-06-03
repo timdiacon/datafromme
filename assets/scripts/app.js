@@ -34,26 +34,24 @@ function addListeners(){
         	// create and insert data sample as table
         	var headerHtml = '';
         	var bodyHtml = '';
-        	console.log(data.result.columns);
         	$(data.result.columns).each(function(key, val){
         		if(val != null){
         			headerHtml += '<th>'+ val +'</th>';
         			bodyHtml += '<th>'+ data.result.sample[val] +'</th>';
         		}
         	});
-        	var html = '<table class="table"><thead><tr>'+ headerHtml +'</tr></thead><tbody><tr>'+bodyHtml+'</tr></tbody></table>';
-        	$('#transaction-form').append(html);
+        	var html = '<div id="statement-preview"><table class="table table-bordered"><thead><tr>'+ headerHtml +'</tr></thead><tbody><tr>'+ bodyHtml +'</tr></tbody></table>';
+        	html += '<p>This is the first record of '+ data.result.rowCount +'. If it looks OK then lets do the lot</p>';
+        	html += '<div id="statement-save" class="btn btn-success">Do it!</div></div>';
+        	$('#transactions').append(html);
 
-        	// now add the GO GO GO button
-        	$('#transaction-form').append('This is the first record of '+data.result.rowCount+'. If it looks OK then lets do the lot');
-        	$('#transaction-form').append('<div id="statement-save" class="btn btn-success">Do it!</div>');
 		    $('#statement-save').click(function(){
 		    	$.ajax({
 					type: 'POST',
 					url: '/api/transaction/complete',
 					success: function(data){
-						$('#page-body').prepend('<div class="alert alert-success">All done!</div>');
-						$('#transaction-form').remove();
+						$('#transactions').prepend('<div class="alert alert-success">All done!</div></div>');
+						$('#statement-preview').remove();
 					},
 					error: function(err){
 						$('#page-body').prepend('<div class="alert alert-error">Err, something went wrong: '+ err +'</div>');

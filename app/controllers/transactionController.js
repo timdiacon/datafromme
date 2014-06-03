@@ -1,3 +1,4 @@
+var async = require('async');
 var Transaction = require('../models/Transaction');
 var fs = require('fs');
 var dataArray;
@@ -17,7 +18,10 @@ module.exports = {
         fs.readFile(req.files.statement.path, function (err, data) {
             // convert csv into array and setup column config
             dataArray = CSVToArray(data);
-            colConfig = getColConfig(dataArray[0]);            
+            colConfig = getColConfig(dataArray[0]);
+            // remove that initial row from the data array
+            dataArray.shift();
+
             var t = new Transaction();
             
             // create a sample object...
@@ -38,9 +42,29 @@ module.exports = {
     },
 
     completeParse: function(req, res){
-        // dataArray is held in memory - convert it into objects...
-        res.json({
-            it:"worked"
+        var t;
+        // dataArray is held in memory - convert it into objects using async...
+        async.each(dataArray, function(transaction, callback){
+            t = new Transaction();
+            t.user = req.user._id;
+            // add data into object
+            for(var c=0; c<transaction.length; c++){
+                if(colConfig[c] != null){
+                    t[colConfig[c]] = transaction[c];
+                }
+            }
+            t.save(callback);
+        }, function(err) {
+            if(err){
+                res.json({
+                    success: false,
+                    error: err
+                })
+            } else {
+                res.json({
+                    success:true
+                });
+            }
         });
     }
 
