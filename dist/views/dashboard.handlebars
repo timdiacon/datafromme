@@ -1,0 +1,31 @@
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#transactions" data-toggle="tab">Transactions</a></li>
+  <li><a href="#biometrics" data-toggle="tab">Biometrics</a></li>
+</ul>
+
+<div class="tab-content">
+	
+	<div class="tab-pane active" id="transactions">
+		<div id="statement-form" class="form-group">
+			<label for="statement">Upload a statement &nbsp;</label>	
+			<span class="btn btn-success fileinput-button">
+		        <i class="glyphicon glyphicon-plus"></i>
+		        <span>Select file</span>
+		        <!-- The file input field used as target for the file upload widget -->
+		        <input id="statement-upload" type="file" name="statement">
+		    </span>
+		</div>
+	</div>
+
+	<div class="tab-pane" id="biometrics">
+		<form id="biometric-weight-form" action="/api/biometrics" method="post">
+			<div class="form-group">
+				<label for="exampleInputEmail1">How much do you weigh today?</label>
+				<input class="form-control" name="weight" placeholder="Your weight">
+			</div>
+			<button type="submit" class="btn btn-success">Submit</button>
+		</form>
+	</div>
+
+</div>
