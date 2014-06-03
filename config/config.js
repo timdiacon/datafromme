@@ -1,13 +1,14 @@
+var configSrc = require('./localSettings');
+
 module.exports = {
-	
+
 	'database': {
-		'url' : 'mongodb://localhost/DataFrom'
+		'url': configSrc.DATABASE
 	},
 
 	'twitter': {
-		'consumerKey' : 'N69Y30HwVPXYk2TdgXtMQVs5C',
-		'consumerSecret' : '7L47WHvdLv0BKQQGRUaeNkP14mHlCQtJkWHhmWFfHwjs6jb5BY',
-		'callbackURL' : 'http://localhost:3000/auth/twitter/callback'
+		'consumerKey' : configSrc['TWITTER_CONSUMER_KEY'],
+		'consumerSecret' : configSrc['TWITTER_CONSUMER_SECRET'],
+		'callbackURL' : configSrc['TWITTER_CALLBACK_URL'],
 	}
-
-};
+}

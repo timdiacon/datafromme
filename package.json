@@ -14,7 +14,8 @@
     "htpasswd": "~2.1.1",
     "http-auth": "~2.1.7",
     "node-async": "0.0.1",
-    "async": "~0.9.0"
+    "async": "~0.9.0",
+    "connect-mongo": "~0.4.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

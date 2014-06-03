@@ -4,10 +4,8 @@ var TwitterStrategy  = require('passport-twitter').Strategy;
 // load up the user model
 var User = require('../app/models/User');
 
-// load the auth variables
-if(process.env.NODE_ENV == undefined){
-    var configVars = require('./config');
-}
+// load the ENV config
+var configVars = require('./config');
 
 module.exports = function(passport) {
 
@@ -27,11 +25,10 @@ module.exports = function(passport) {
     // =========================================================================
     // TWITTER =================================================================
     // =========================================================================
-        
     passport.use(new TwitterStrategy({
-        consumerKey     : (process.env.NODE_ENV === 'staging') ? process.env.TWITTER_CONSUMER_KEY : configVars.twitter.consumerKey,
-        consumerSecret  : (process.env.NODE_ENV === 'staging') ? process.env.TWITTER_CONSUMER_SECRET : configVars.twitter.consumerSecret,
-        callbackURL     : (process.env.NODE_ENV === 'staging') ? process.env.TWITTER_CALLBACK_URL : configVars.twitter.callbackURL
+        consumerKey     : configVars.twitter.consumerKey,
+        consumerSecret  : configVars.twitter.consumerSecret,
+        callbackURL     : configVars.twitter.callbackURL
     },
     function(token, tokenSecret, profile, done) {
 

@@ -4,6 +4,7 @@
  * Express Dependencies
  */
 var express = require('express');
+var MongoStore = require('connect-mongo')(express);
 var app = express();
 
 var mongoose = require('mongoose');
@@ -53,8 +54,6 @@ if (process.env.NODE_ENV === 'staging') {
     // Locate the assets
     app.use(express.static(__dirname + '/dist/assets'));
 
-    databaseUrl = process.env.DATABASE;
-
 } else {
     app.engine('handlebars', exphbs({
         // Default Layout and locate layouts and partials
@@ -69,7 +68,6 @@ if (process.env.NODE_ENV === 'staging') {
     // Locate the assets
     app.use(express.static(__dirname + '/assets'));
 
-    databaseUrl = configVars.database.url;
 }
 
 // Set Handlebars
@@ -77,7 +75,7 @@ app.set('view engine', 'handlebars');
 
 //connect to the db server:
 
-mongoose.connect(databaseUrl);
+mongoose.connect(configVars.database.url);
 mongoose.connection.on('open', function() {
     console.log("Connected to Mongoose...");
 });
@@ -86,7 +84,10 @@ mongoose.connection.on('open', function() {
 require('./config/passport')(passport);
 
 app.use(cookieParser());
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(session({
+    secret: 'chrislovestheorangefive',
+    store: new MongoStore({url:configVars.database.url})
+}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
