@@ -34,10 +34,7 @@ function addListeners(){
         	// populate table with data
 			$('#statement-preview .transactions').render(data.result.sample);
 			$('#statement-preview').removeClass('hidden');
-
-			var html = '<p>This is the first record of '+ data.result.rowCount +'. If it looks OK then lets do the lot</p>';
-        	html += '<div id="statement-save" class="btn btn-success">Do it!</div></div>';
-        	$('#transactions').append(html);
+			$('#statement-preview .actions .total').text(data.result.rowCount);
 
         	// add listeners...
 		    $('#statement-save').click(function(){

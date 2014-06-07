@@ -22,14 +22,20 @@ module.exports = {
             // remove that initial row from the data array
             dataArray.shift();
 
-            var tm = new Transaction();
-            populateTransactionModel(tm, dataArray[0]);
+            var ta = [];
+            var tm;
+
+            for(var i=0; i<5; i++){
+                tm = new Transaction();                
+                populateTransactionModel(tm, dataArray[i]);
+                ta.push(tm);
+            }
  
             // send some useful things back to the user...
             res.send({
                 columns:colConfig,
                 rowCount:dataArray.length,
-                sample:tm
+                sample:ta
             })
         });
     },
