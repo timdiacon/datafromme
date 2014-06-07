@@ -16,6 +16,35 @@
 		        <input id="statement-upload" type="file" name="statement">
 		    </span>
 		</div>
+		<div id="statement-preview" class="hidden">
+			<table class="table">
+			  <thead>
+			    <tr>
+			      <th>Date</th>
+			      <th>Type</th>
+			      <th>Description</th>
+			      <th>Credit</th>
+			      <th>Debit</th>
+			      <th>Balance</th>
+			    </tr>
+			  </thead>
+			  <tbody class="transactions">
+			    <tr>
+			      <td class="date"></td>
+			      <td class="type"></td>
+			      <td class="description"></td>
+			      <td class="credit"></td>
+			      <td class="debit"></td>
+			      <td class="balance"></td>
+			    </tr>
+			  </tbody>
+			</table>
+			<div class="actions">
+				<p>If the sample above looks correct then continue with all <span class="total"></span> transactions</p>
+				<div id="statement-cancel" class="btn btn-danger">Cancel</div>
+				<div id="statement-save" class="btn btn-success">Got for it</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="tab-pane" id="biometrics">
