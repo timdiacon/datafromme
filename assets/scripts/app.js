@@ -31,20 +31,15 @@ function addListeners(){
         dataType: 'json',
 
         done: function (e, data) {
-        	// create and insert data sample as table
-        	var headerHtml = '';
-        	var bodyHtml = '';
-        	$(data.result.columns).each(function(key, val){
-        		if(val != null){
-        			headerHtml += '<th>'+ val +'</th>';
-        			bodyHtml += '<th>'+ data.result.sample[val] +'</th>';
-        		}
-        	});
-        	var html = '<div id="statement-preview"><table class="table table-bordered"><thead><tr>'+ headerHtml +'</tr></thead><tbody><tr>'+ bodyHtml +'</tr></tbody></table>';
-        	html += '<p>This is the first record of '+ data.result.rowCount +'. If it looks OK then lets do the lot</p>';
+        	// populate table with data
+			$('#statement-preview .transactions').render(data.result.sample);
+			$('#statement-preview').removeClass('hidden');
+
+			var html = '<p>This is the first record of '+ data.result.rowCount +'. If it looks OK then lets do the lot</p>';
         	html += '<div id="statement-save" class="btn btn-success">Do it!</div></div>';
         	$('#transactions').append(html);
 
+        	// add listeners...
 		    $('#statement-save').click(function(){
 		    	$.ajax({
 					type: 'POST',

@@ -1,0 +1,16 @@
+{
+  "name": "transparency",
+  "version": "0.9.14",
+  "main": "./dist/transparency.js",
+  "homepage": "https://github.com/leonidas/transparency",
+  "_release": "0.9.14",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.9.14",
+    "commit": "e449c0c2c434cf9b5c29676856e87e7fc59f5bc8"
+  },
+  "_source": "git://github.com/leonidas/transparency.git",
+  "_target": "~0.9.14",
+  "_originalSource": "transparency",
+  "_direct": true
+}

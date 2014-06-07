@@ -8,7 +8,8 @@ var transactionSchema = mongoose.Schema({
 	date: Date,
 	type: String,
 	description: String,
-	value: Number,
+	credit: Number,
+	debit: Number,
 	balance: Number,
 
 });

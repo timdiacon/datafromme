@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV === 'development'){
+if(process.env.NODE_ENV === undefined){
 	configSrc = require('./localSettings')
 } else {
 	configSrc = process.env 

@@ -22,21 +22,14 @@ module.exports = {
             // remove that initial row from the data array
             dataArray.shift();
 
-            var t = new Transaction();
-            
-            // create a sample object...
-            var row = dataArray[1];
-            for(var c=0; c<row.length; c++){
-                if(colConfig[c] != null){
-                    t[colConfig[c]] = row[c];
-                }
-            }
-
+            var tm = new Transaction();
+            populateTransactionModel(tm, dataArray[0]);
+ 
             // send some useful things back to the user...
             res.send({
                 columns:colConfig,
                 rowCount:dataArray.length,
-                sample:t
+                sample:tm
             })
         });
     },
@@ -45,15 +38,10 @@ module.exports = {
         var t;
         // dataArray is held in memory - convert it into objects using async...
         async.each(dataArray, function(transaction, callback){
-            t = new Transaction();
-            t.user = req.user._id;
-            // add data into object
-            for(var c=0; c<transaction.length; c++){
-                if(colConfig[c] != null){
-                    t[colConfig[c]] = transaction[c];
-                }
-            }
-            t.save(callback);
+            tm = new Transaction();
+            tm.user = req.user._id;
+            populateTransactionModel(tm, transaction);
+            tm.save(callback);
         }, function(err) {
             if(err){
                 res.json({
@@ -70,6 +58,29 @@ module.exports = {
 
 };
 
+// extracts data from array and parses into transaction model
+function populateTransactionModel(tm, t){
+    for(var i=0; i<t.length; i++){
+        if(colConfig[i] != null){
+            // convert Natwest value to credit / debit
+            if(colConfig[i] == "value"){
+                if(t[i].charAt(0) === '-'){
+                    tm['debit'] = t[i].substr(1);
+                } else {
+                    tm['credit'] = t[i];
+                }
+            }
+            // ensure date is parsed correctly
+            if(colConfig[i] == "date") {
+                var splitDate = t[i].split('/');
+                tm['date'] = new Date(splitDate[2], splitDate[1], splitDate[0]);
+            }
+            // just do as normal...
+            tm[colConfig[i]] = t[i];
+        }
+    }
+}
+
 function getColConfig(a){
     var na = [];
     for(var i=0; i<a.length; i++){
@@ -80,10 +91,12 @@ function getColConfig(a){
             na.push("type");
         } else if(s.toLowerCase().indexOf("desc") != -1){
             na.push("description");
-        } else if(s.toLowerCase().indexOf("val") != -1){
+        } else if(s.toLowerCase().indexOf("val") != -1){ // Natwest uses single field which we will convert to credit / debit
             na.push("value");
+        } else if(s.toLowerCase().indexOf("credit") != -1){
+            na.push("credit");
         } else if(s.toLowerCase().indexOf("debit") != -1){
-            na.push("value");
+            na.push("debit");
         } else if(s.toLowerCase().indexOf("bal") != -1){
             na.push("balance");
         } else {
