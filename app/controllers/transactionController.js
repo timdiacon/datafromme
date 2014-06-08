@@ -5,9 +5,9 @@ var dataArray;
 var colConfig;
 
 module.exports = {
-    index: function(req, res) {
+    test: function(req, res) {
         	
-        Transaction.find({}, function(err, data) {
+        Transaction.find({}, null, {sort: {date: 1}}, function(err, data) {
             res.json(data);
         });
 
@@ -20,11 +20,12 @@ module.exports = {
             dataArray = CSVToArray(data);
             colConfig = getColConfig(dataArray[0]);
             // remove that initial row from the data array
-            dataArray.shift();
+            dataArray.splice(0,1);
 
             var ta = [];
             var tm;
 
+            // TODO what if thre are less than 5 items?
             for(var i=0; i<5; i++){
                 tm = new Transaction();                
                 populateTransactionModel(tm, dataArray[i]);
@@ -44,6 +45,7 @@ module.exports = {
         var t;
         // dataArray is held in memory - convert it into objects using async...
         async.each(dataArray, function(transaction, callback){
+            console.log(transaction);
             tm = new Transaction();
             tm.user = req.user._id;
             populateTransactionModel(tm, transaction);
@@ -68,21 +70,22 @@ module.exports = {
 function populateTransactionModel(tm, t){
     for(var i=0; i<t.length; i++){
         if(colConfig[i] != null){
-            // convert Natwest value to credit / debit
-            if(colConfig[i] == "value"){
-                if(t[i].charAt(0) === '-'){
-                    tm['debit'] = t[i].substr(1);
-                } else {
-                    tm['credit'] = t[i];
-                }
+            switch(colConfig[i]){
+                case 'value':
+                    if(t[i].charAt(0) === '-'){
+                        tm['debit'] = t[i].substr(1);
+                    } else {
+                        tm['credit'] = t[i];
+                    }
+                    break;
+                case 'date':
+                    var splitDate = t[i].split('/');
+                    // don't forget months as zero indexed :-)
+                    tm['date'] = new Date(splitDate[2], splitDate[1]-1, splitDate[0]);
+                    break;
+                default:
+                    tm[colConfig[i]] = t[i];
             }
-            // ensure date is parsed correctly
-            if(colConfig[i] == "date") {
-                var splitDate = t[i].split('/');
-                tm['date'] = new Date(splitDate[2], splitDate[1], splitDate[0]);
-            }
-            // just do as normal...
-            tm[colConfig[i]] = t[i];
         }
     }
 }

@@ -546,3 +546,18 @@ input[type=password]:focus {
 .nav-tabs {
   margin-bottom: 15px !important;
 }
+
+/* line 46, sass/screen.scss */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+/* line 52, sass/screen.scss */
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
