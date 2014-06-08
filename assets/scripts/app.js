@@ -4,12 +4,12 @@ function init() {
 	FastClick.attach(document.body);
 	addListeners();
 
-	var margin = {top: 20, right: 30, bottom: 30, left: 30},
+	var margin = {top: 20, right: 50, bottom: 30, left: 50}
     width = 800 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
 	var x = d3.time.scale().range([0, width]);
-	var y = d3.scale.linear().range([0, height]);
+	var y = d3.scale.linear().range([height, 0]);
 
 	var xAxis = d3.svg.axis().scale(x).orient("bottom");
 	var yAxis = d3.svg.axis().scale(y).orient("left");
@@ -18,14 +18,17 @@ function init() {
 		.x(function(d) { return x(d.date); })
 		.y(function(d) { return y(d.balance); });
 
-	var svg = d3.select("#graph").append("svg");
+	var svg = d3.select("#graph").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
 	d3.json('/api/transactions', function(err, data){
 		//console.log(data)
 		data.forEach(function(d) {
 			// parse date from ISO format into Date object
 			d.date = new Date(d.date);
-			d.debit = +d.balance;
+			d.debit = d.balance;
 		})
 
 	  	x.domain(d3.extent(data, function(d) { return d.date; }));
