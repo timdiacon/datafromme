@@ -59,7 +59,6 @@ module.exports = {
         // dataArray is held in memory - convert it into objects using async...
         // TODO can we feedback conversion to the front end?
         async.each(dataArray, function(transaction, callback){
-            console.log(transaction);
             tm = new Transaction();
             tm.user = req.user._id;
             populateTransactionModel(tm, transaction);
