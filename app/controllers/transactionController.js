@@ -1,6 +1,7 @@
 var async = require('async');
 var Transaction = require('../models/Transaction');
 var fs = require('fs');
+var csvParser = require('fast-csv');
 var dataArray;
 var colConfig;
 
@@ -15,35 +16,48 @@ module.exports = {
 
     // parses CVS to array and converts first item into object
     initialParse: function(req, res) {
+        
         fs.readFile(req.files.statement.path, function (err, data) {
-            // convert csv into array and setup column config
-            dataArray = CSVToArray(data);
-            colConfig = getColConfig(dataArray[0]);
+
             // remove that initial row from the data array
-            dataArray.splice(0,1);
+            dataArray = [];
 
-            var ta = [];
-            var tm;
+            // TODO ideally would only parse sample here rather than whole thing
+            csvParser.fromString(data, {headers: false, ignoreEmpty: true})
+             .on("record", function(data){
+                // stick it in the array
+                dataArray.push(data);
+             })
+             .on("end", function(count){
+                
+                // all done so stick header row into col config then remove...
+                colConfig = getColConfig(dataArray[0]);
+                dataArray.shift();
 
-            // TODO what if thre are less than 5 items?
-            for(var i=0; i<5; i++){
-                tm = new Transaction();                
-                populateTransactionModel(tm, dataArray[i]);
-                ta.push(tm);
-            }
- 
-            // send some useful things back to the user...
-            res.send({
-                columns:colConfig,
-                rowCount:dataArray.length,
-                sample:ta
-            })
+                var ta = [];
+                var tm;
+
+                // TODO what if thre are less than 5 items?
+                for(var i=0; i<5; i++){
+                    tm = new Transaction();                
+                    populateTransactionModel(tm, dataArray[i]);
+                    ta.push(tm);
+                }
+     
+                // send some useful things back to the user...
+                res.send({
+                    columns:colConfig,
+                    rowCount:count,
+                    sample:ta
+                })
+             });
         });
     },
 
     completeParse: function(req, res){
         var t;
         // dataArray is held in memory - convert it into objects using async...
+        // TODO can we feedback conversion to the front end?
         async.each(dataArray, function(transaction, callback){
             console.log(transaction);
             tm = new Transaction();
@@ -90,6 +104,7 @@ function populateTransactionModel(tm, t){
     }
 }
 
+// convert header row from from CSV into config array
 function getColConfig(a){
     var na = [];
     for(var i=0; i<a.length; i++){
@@ -113,40 +128,4 @@ function getColConfig(a){
         }
     }
     return na;
-}
-
-function CSVToArray( strData, strDelimiter ){
-    strDelimiter = (strDelimiter || ",");
-    var objPattern = new RegExp(
-                                (
-                                 // Delimiters.
-                                 "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-                                 
-                                 // Quoted fields.
-                                 "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-                                 
-                                 // Standard fields.
-                                 "([^\"\\" + strDelimiter + "\\r\\n]*))"
-                                 ),
-                                "gi"
-                                );
-    var arrData = [[]];
-    var arrMatches = null;
-    while (arrMatches = objPattern.exec( strData )){
-        var strMatchedDelimiter = arrMatches[ 1 ];
-        if (
-            strMatchedDelimiter.length &&
-            (strMatchedDelimiter != strDelimiter)
-            ){
-            arrData.push( [] );
-        }
-        if (arrMatches[ 2 ]){
-            var strMatchedValue = arrMatches[ 2 ].replace(new RegExp( "\"\"", "g" ),"\"");
-        } else {
-            var strMatchedValue = arrMatches[ 3 ];
-            
-        }
-        arrData[ arrData.length - 1 ].push( strMatchedValue );
-    }
-    return arrData;
 }

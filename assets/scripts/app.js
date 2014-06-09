@@ -72,6 +72,7 @@ function addListeners(){
 	});
 
     $('#statement-upload').fileupload({
+    	acceptFileTypes: /(\.|\/)(csv)$/i,
         url: 'api/transaction',
         dataType: 'json',
 
@@ -91,7 +92,7 @@ function addListeners(){
 						$('#statement-preview').remove();
 					},
 					error: function(err){
-						$('#page-body').prepend('<div class="alert alert-error">Err, something went wrong: '+ err +'</div>');
+						$('#page-body').prepend('<div class="alert alert-danger">Err, something went wrong: '+ err +'</div>');
 					}
 				});
 		    });
@@ -103,7 +104,11 @@ function addListeners(){
             if(progress == 100){
             	$('#statement-form').remove();
             }
-        }
+        },
+
+		processfail: function(err, data){
+			$('#page-body').prepend('<div class="alert alert-danger">You gotta upload a CSV file dumb dumb</div>');
+		}
     });
 
 
