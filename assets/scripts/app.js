@@ -24,13 +24,14 @@ function init() {
 		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
 	d3.json('/api/transactions', function(err, data){
-		//console.log(data)
+
+		// convert the dates from ISO into Date objects
 		data.forEach(function(d) {
-			// parse date from ISO format into Date object
 			d.date = new Date(d.date);
-			d.debit = d.balance;
 		})
 
+		// domain sets the value range of the axis
+		// extend returns the min - max values of the date
 	  	x.domain(d3.extent(data, function(d) { return d.date; }));
 	  	y.domain(d3.extent(data, function(d) { return d.balance; }));
 
@@ -77,10 +78,16 @@ function addListeners(){
         dataType: 'json',
 
         done: function (e, data) {
+			// convert ISO dates
+			$(data.result.sample).each(function(count, object){
+				object.date = new XDate(object.date).toString("d MMM yyyy");
+			});
+
         	// populate table with data
 			$('#statement-preview .transactions').render(data.result.sample);
 			$('#statement-preview').removeClass('hidden');
 			$('#statement-preview .actions .total').text(data.result.rowCount);
+
 
         	// add listeners...
 		    $('#statement-save').click(function(){

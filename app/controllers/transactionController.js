@@ -43,7 +43,7 @@ module.exports = {
                     populateTransactionModel(tm, dataArray[i]);
                     ta.push(tm);
                 }
-     
+                
                 // send some useful things back to the user...
                 res.send({
                     columns:colConfig,
@@ -62,6 +62,7 @@ module.exports = {
             tm = new Transaction();
             tm.user = req.user._id;
             populateTransactionModel(tm, transaction);
+            console.log("Date:" + tm.date);
             tm.save(callback);
         }, function(err) {
             if(err){

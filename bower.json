@@ -8,7 +8,8 @@
     "jquery-file-upload": "~9.5.7",
     "fastclick": "~1.0.2",
     "transparency": "~0.9.14",
-    "d3": "~3.4.8"
+    "d3": "~3.4.8",
+    "xdate": "~0.8.1"
   },
   "devDependencies": {}
 }
